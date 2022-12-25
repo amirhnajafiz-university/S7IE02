@@ -17,9 +17,9 @@
     <body>
         <!-- main container -->
         <div class="container">
-            
+
             <!-- result of our search -->
-            <div id="info-box">
+            <div class="box" id="info-box">
 
                 <!-- person box -->
                 <div class="person">
@@ -74,11 +74,19 @@
             </div>
 
             <!-- input form -->
-            <div id="form-box">
-                <div class="user-input">
-                    <input type="text" placeholder="username" id="username" />
-                    <div id="searchBtn"><button onclick="getUser()">Search</button></div>
+            <div class="box" id="form-box">
+
+                <div class="input-box">
+
+                    <input class="user-input" type="text" placeholder="username" id="username" />
+                    <div class="btn-holder">
+                        <button class="btn" onclick="getUser()">
+                            Search
+                        </button>
+                    </div>
+                    
                 </div>
+
                 <div id="message"></div>
             </div>
 
