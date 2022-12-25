@@ -1,76 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <!-- meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="maintainer" content="amirhnajafiz" />
+        <meta name="year" content="2022" />
 
-<head>
-    <meta charset="UTF-8">
+        <title>
+            Gitgle
+        </title>
 
-    <title>project</title>
+        <!-- importing styles -->
+        <link href="main.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <!-- main container -->
+        <div class="container">
+            
+            <!-- result of our search -->
+            <div id="info-box">
 
-    <link href="main.css" rel="stylesheet" type="text/css" />
-</head>
-
-<body class="bg">
-    <div class="void">
-        <div id="info-box">
-            <div class="person">
-                <div class="avatar-div">
-                    <img src="data/user.jpg" id="avatar-img" >
+                <!-- person box -->
+                <div class="person">
+                    <div class="avatar-div">
+                        <img src="assets/images/user.jpg" id="avatar-img" >
+                    </div>
+                    <div class="name-div">
+                        <h1 id="account-name">Name</h1>
+                        <h4 id="blog">Blog</h4>
+                    </div>
                 </div>
-                <div class="name-div">
-                    <h1 id="account-name">Name</h1>
-                    <h4 id="blog">Blog</h4>
+
+                <div class="details">
+                    <table class="details-table">
+                        <thead>
+                            <tr>
+                                <th style="padding-top: 7px">Location</th>
+                                <th style="padding-top: 7px">Followers</th>
+                                <th style="padding-top: 7px">Following</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="loc">-</td>
+                                <td id="followers">-</td>
+                                <td id="following">-</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Bio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" id="bio">-</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Favourite Programming Lang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" id="fav_lang">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
-            <div class="details">
-                <table class="details-table">
-                    <thead>
-                        <tr>
-                            <th style="padding-top: 7px">Location</th>
-                            <th style="padding-top: 7px">Followers</th>
-                            <th style="padding-top: 7px">Following</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="loc">-</td>
-                            <td id="followers">-</td>
-                            <td id="following">-</td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th colspan="3">Bio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" id="bio">-</td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th colspan="3">Favourite Programming Lang</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" id="fav_lang">-</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <!-- input form -->
+            <div id="form-box">
+                <div class="user-input">
+                    <input type="text" placeholder="username" id="username" />
+                    <div id="searchBtn"><button onclick="getUser()">Search</button></div>
+                </div>
+                <div id="message"></div>
             </div>
+
         </div>
 
-        <div id="form-box">
-            <div class="user-input">
-                <input type="text" placeholder="username" id="username">
-                <div id="searchBtn"><button onclick="getUser()">Search</button></div>
-            </div>
-            <div id="message"></div>
-        </div>
-    </div>
-    <script src="main.js"></script>
-</body>
-
+        <!-- importing javascript functions -->
+        <script src="main.js"></script>
+    </body>
 </html>
