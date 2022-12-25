@@ -1,14 +1,27 @@
 // errors
 const errNoInternetConnection = "No internet connection!";
-const errUserNotFound = "User not found!"
+const errUserNotFound = "User not found!";
+const errServerError = "Server error!";
 
 // messages
 const msgConnectToInternet = "Internet connected.";
-const msgReadFromLocal = "Read from local storage."
+const msgReadFromLocal = "Read from local storage.";
 
 // elements
 let responseElement = document.getElementById("response");
 let userInputElement = document.getElementById("username");
+let infoBoxElement = document.getElementById("info-box");
+let avatarElement = document.getElementById("avatar");
+let accountElement = document.getElementById("account");
+let bioElement = document.getElementById("bio");
+let blogElement = document.getElementById("blog");
+let locationElement = document.getElementById("location");
+let followersElement = document.getElementById("followers");
+let followingElement = document.getElementById("following");
+let companyElement = document.getElementById("company");
+let repoElement = document.getElementById("repos");
+let hireElement = document.getElementById("hireable");
+
 
 
 // add event listeners for checking internet connection.
@@ -68,6 +81,11 @@ function read_from_local(key){
     return localStorage.getItem(key);
 }
 
+// function for sending http request to github.
+async function sendRequest(username) {
+    return fetch(`https://api.github.com/users/${username}`);
+}
+
 // function to call for the user from either local storage/cookies or github api.
 async function getUser(){
     // get username
@@ -76,55 +94,72 @@ async function getUser(){
     // check local storage
     if (read_from_local(username) == null) {
         // need to send http request.
-        let response = await fetch(`https://api.github.com/users/${username}`);
+        let response = await sendRequest(username);
+
+        // check for network errors
+        if (response.status !== 200) {
+            responseElement.innerHTML = errServerError
+
+            alert(errServerError)
+
+            return
+        }
 
         // send http request to github api
         let data = await response.json();
-        data = JSON.stringify(data);
 
         // save it into local storage
-        save_to_local(username, data);
-        document.getElementById("message").innerHTML = "";
+        save_to_local(username, JSON.stringify(data));
+
+        responseElement.innerHTML = "";
     } else {
         // no need for api request
         var data = JSON.parse(read_from_local(username));
-        document.getElementById("message").innerHTML = msgReadFromLocal;
+
+        responseElement.innerHTML = msgReadFromLocal;
     }
     
     // get data from cookie
     if (getCookie(username) == "") {
-        let response = await fetch(`https://api.github.com/users/${username}`);
+        let response = await sendRequest(username);
+        if (response.status !== 200) {
+            responseElement.innerHTML = errServerError
+
+            alert(errServerError)
+
+            return
+        }
 
         var data = await response.json();
-        data = JSON.stringify(data);
+        setCookie(username, JSON.stringify(data), 1);
 
-        setCookie(username, data, 1);
-        document.getElementById("message").innerHTML = "";
+        responseElement.innerHTML = "";
     } else {
         var data = JSON.parse(getCookie(username));
-        document.getElementById("message").innerHTML = msgReadFromLocal;
+
+        responseElement.innerHTML = msgReadFromLocal;
     }
 
+    // setting the response into elements
     if (data.message) {
-        document.getElementById("info-box").style.opacity = 0.35;
-        document.getElementById("message").innerHTML = errUserNotFound;
+        infoBoxElement.style.opacity = 0.35;
+        responseElement.innerHTML = errUserNotFound;
     } else {
-        if (document.getElementById("message").innerHTML == errUserNotFound){
-            document.getElementById("message").innerHTML = "";
+        if (responseElement.innerHTML == errUserNotFound){
+            responseElement.innerHTML = "";
         }
 
-        document.getElementById("info-box").style.opacity = 1;
+        infoBoxElement.style.opacity = 1;
 
-        if (data.avatar_url) {document.getElementById("avatar-img").src = data.avatar_url ;}
-        if (data.name) {document.getElementById("account-name").innerHTML = data.name} else {document.getElementById("account-name").innerHTML = "unknown"}
-        if (data.bio) {document.getElementById("bio").innerHTML = data.bio;} else {document.getElementById("bio").innerHTML = "No Bio"}
-        if (data.blog) {document.getElementById("blog").innerHTML = "blog: " + data.blog.replace('https://','www.');} else {document.getElementById("blog").innerHTML = "No Blog"}
-
-        if (data.location) {document.getElementById("loc").innerHTML = data.location} else {document.getElementById("loc").innerHTML = "location not specified"}
-        if (data.followers) {document.getElementById("followers").innerHTML = data.followers} else {document.getElementById("followers").innerHTML = "unknown"}
-        if (data.following) {document.getElementById("following").innerHTML = data.following} else {document.getElementById("following").innerHTML = "unknown"}
-        if (data.company) {
-            document.getElementById("company").innerHTML = data.company
-        }
+        avatarElement.src = data.avatar_url ? data.avatar_url : "unknown";
+        accountElement.innerHTML = data.name ? data.name : "unknown";
+        bioElement.innerHTML = data.bio ? data.bio : "unknown";
+        blogElement.innerHTML = data.blog ? "blog: " + data.blog.replace('https://','www.') : "unknown";
+        locationElement.innerHTML = data.location ? data.location : "unknown";
+        followersElement.innerHTML = data.followers ? data.followers : "unknown";
+        followingElement.innerHTML = data.following ? data.following : "unknown";
+        companyElement.innerHTML = data.company ? data.company : "unknown";
+        repoElement.innerHTML = data.public_repos ? data.public_repos : "unknown";
+        hireElement.innerHTML = data.hireable ? data.hireable : "unknown";
     }
 }
