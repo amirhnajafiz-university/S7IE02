@@ -5,12 +5,16 @@ const errServerError = "Server error!";
 
 // messages
 const msgConnectToInternet = "Internet connected.";
-const msgReadFromLocal = "Read from local storage.";
+const msgReadFromLocal = "Read from cache.";
 
 // elements
 let responseElement = document.getElementById("response");
 let userInputElement = document.getElementById("username");
+
 let infoBoxElement = document.getElementById("info-box");
+let localElement = document.getElementById("use_local");
+let cookieElement = document.getElementById("use_cookie");
+
 let avatarElement = document.getElementById("avatar");
 let accountElement = document.getElementById("account");
 let bioElement = document.getElementById("bio");
@@ -91,53 +95,61 @@ async function getUser(){
     // get username
     let username = userInputElement.value
 
-    // check local storage
-    if (read_from_local(username) == null) {
-        // need to send http request.
-        let response = await sendRequest(username);
+    // check local storage or cookie storage
+    if (localElement.checked) {
+        console.log('try: local storage');
 
-        // check for network errors
-        if (response.status !== 200) {
-            responseElement.innerHTML = errServerError
-
-            alert(errServerError)
-
-            return
-        }
-
-        // send http request to github api
-        let data = await response.json();
-
-        // save it into local storage
-        save_to_local(username, JSON.stringify(data));
-
-        responseElement.innerHTML = "";
-    } else {
-        // no need for api request
-        var data = JSON.parse(read_from_local(username));
-
-        responseElement.innerHTML = msgReadFromLocal;
-    }
+        if (read_from_local(username) == null) {
+            // need to send http request.
+            let response = await sendRequest(username);
     
-    // get data from cookie
-    if (getCookie(username) == "") {
-        let response = await sendRequest(username);
-        if (response.status !== 200) {
-            responseElement.innerHTML = errServerError
+            // check for network errors
+            if (response.status !== 200) {
+                responseElement.innerHTML = errServerError
+    
+                alert(errServerError)
+    
+                return
+            }
 
-            alert(errServerError)
-
-            return
+            console.log(response.status)
+    
+            // send http request to github api
+            let data = await response.json();
+    
+            // save it into local storage
+            save_to_local(username, JSON.stringify(data));
+    
+            responseElement.innerHTML = "";
+        } else {
+            // no need for api request
+            var data = JSON.parse(read_from_local(username));
+    
+            responseElement.innerHTML = msgReadFromLocal;
         }
+    } else if (cookieElement.checked) {
+        console.log('try: cookie');
 
-        var data = await response.json();
-        setCookie(username, JSON.stringify(data), 1);
+        // get data from cookie
+        if (getCookie(username) == "") {
+            let response = await sendRequest(username);
+            if (response.status !== 200) {
+                responseElement.innerHTML = errServerError
 
-        responseElement.innerHTML = "";
-    } else {
-        var data = JSON.parse(getCookie(username));
+                alert(errServerError)
 
-        responseElement.innerHTML = msgReadFromLocal;
+                return
+            }
+
+            var data = await response.json();
+            setCookie(username, JSON.stringify(data), 1);
+
+            responseElement.innerHTML = "";
+        } else {
+            var data = JSON.parse(getCookie(username));
+
+            responseElement.innerHTML = msgReadFromLocal;
+        }
     }
 
     // setting the response into elements
