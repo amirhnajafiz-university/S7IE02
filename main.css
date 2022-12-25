@@ -1,3 +1,18 @@
+* {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: auto;
+    background-image: url('assets/images/bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
 td {
     padding: 20px;
     text-align: center;
@@ -12,14 +27,14 @@ th {
     height: 500px;
 
     padding: 20px;
-    margin: 50px auto 0;
+    margin: 200px auto 0;
 }
 
 .box {
     height: 90%;
     padding: 20px;
 
-    background-color: #89D0EEBF;
+    background-color: #838383bf;
     border-radius: 25px;
 }
 
@@ -30,9 +45,9 @@ th {
 }
 
 .user-input {
+    width: 170px;
     padding: 15px;
-    margin-left: 10px;
-    margin-top: 50px;
+    margin: 50px 10px 0 10px;
 
     background-color: #f5f5f5;
 
@@ -86,9 +101,9 @@ th {
     border-radius: 100px;
 }
 
-.name {
+.person {
     width: 250px;
-    margin: 30px 25px 0 0;
+    margin: 50px 25px 0 0;
 
     float: right;
 
