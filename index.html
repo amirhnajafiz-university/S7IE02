@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>project</title>
+
+    <style>
+        /* Main Container */
+        .void {
+            width: 800px;;
+            height: 500px;
+            padding: 20px;
+            margin: auto;
+            margin-top: 50px;
+            /*background-color: red;*/
+        }
+        /* ===================================== */
+
+        /* Left Container -- For Data Showing */
+        #info-box {
+            width: 55%;
+            height: 90%;
+            float: left;
+            padding: 20px;
+            /*background-color: skyblue;*/
+            background-color: #89D0EEBF;
+            /*opacity: 0.8;*/
+            border-radius: 25px;
+        }
+        /* ============================================================================= */
+
+        /* Right Container for Input Data from User */
+        #form-box {
+            width: 30%;
+            height: 90%;
+            float: right;
+            padding: 20px;
+            /*background-color: skyblue;*/
+            background-color: #89D0EEBF;
+            /*opacity: 0.8;*/
+            border-radius: 25px;
+        }
+        /*-----------Hidden Div----------*/
+        .user-input {
+            /*opacity: 1;*/
+            height: 200px;
+            padding: 10px;
+            /*background-color: red;*/
+            margin-top: 80px;
+        }
+        /* ------Username TextBox Properties----- */
+        input {
+            /*opacity: 1.0;*/
+            padding: 15px;
+            margin-left: 10px;
+            margin-top: 50px;
+            background-color: whitesmoke;
+            border: none;
+            border-radius: 5px;
+        }
+        input:focus{
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(45, 45, 45, 0.95);
+        }
+        input:hover{
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(45, 45, 45, 0.95);
+        }
+        /* --------Button Properties-------- */
+        button {
+            padding: 10px;
+            background-color: whitesmoke;
+            border-radius: 5px;
+            border: none;
+            margin-left: auto;
+            /*opacity: 1.0;*/
+        }
+        button:hover{
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(45, 45, 45, 0.95);
+        }
+        #searchBtn {
+            width: fit-content;
+            margin-top: 15%;
+            margin-left: auto;
+            margin-right: auto
+        }
+        /* ==================================================================================== */
+
+        /* The upper div in left container ; Including Avatar, Name and Blog of the User */
+        .person {
+            /*background-color: #0051ff;*/
+            height: 150px;
+        }
+        /* ==================================================================================== */
+
+        /* The lower div in left container ; Including all other escraped data from github */
+        .details {
+            /*background-color: #0051ff;*/
+            margin-top: 10px;
+            height: 275px;
+            padding: 10px;
+        }
+        /* ==================================================================================== */
+
+        /* ---------A small div specifically for avatar image------------ */
+        .avatar-div {
+            /*background-color: red;*/
+            width: 150px;
+            height: 150px;
+            border-radius: 100px;
+            float: left;
+        }
+        img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 100px;
+        }
+
+        /* ---------A small div specifically for user name------------ */
+        .name-div {
+            width: 250px;
+            /*background-color: red;*/
+            float: right;
+            margin-top: 30px;
+            margin-right: 25px;
+            text-align: center;
+        }
+        /* ---------The div specifically for the pack of data------------ */
+        .details-table {
+            padding: 25px;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
+        }
+        td {
+            padding: 20px;
+            text-align: center;
+        }
+        th {
+            padding: 3px;
+        }
+
+        /* ---------A small div specifically the Messages; User not Found|LocalStorage|Cookies------------ */
+        #message {
+            /*background-color: red;*/
+            height: 40px;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        //================================================================================================================================
+        //==============================================Checking Internet Connection======================================================
+        //================================================================================================================================
+        // window.addEventListener("offline", function() {
+        //     document.getElementById("message").innerHTML = "Error in Internet Connection";
+        // })
+        // window.addEventListener("online", function() {
+        //     if (document.getElementById("message").innerHTML == "Error in Internet Connection") {
+        //         document.getElementById("message").innerHTML = "";
+        //     }
+        //
+        // })
+        //================================================================================================================================
+        //================================================================================================================================
+        //================================================================================================================================
+
+        //================================================================================================================================
+        //==========================================The function for saving data as cookies===============================================
+        //================================================================================================================================
+        function setCookie(cname, cvalue, exdays) {
+            // The function for saving data as cookies-------------
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            document.getElementById("message").innerHTML = "";
+        }
+        //================================================================================================================================
+        //==========================================The function for reading data from cookies============================================
+        //================================================================================================================================
+        function getCookie(cname) {
+            // The function for reading data from cookies--------------
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        //================================================================================================================================
+        //==========================================The function for saving data in local storage=========================================
+        //================================================================================================================================
+        function save_to_local(username, data){
+            // The function for saving data in local storage-------
+            localStorage.setItem(username, data);
+        }
+        //================================================================================================================================
+        //==========================================The function for reading data from local storage======================================
+        //================================================================================================================================
+        function read_from_local(username){
+            // The function for reading data from local storage--------
+            let data = localStorage.getItem(username);
+            return data;
+        }
+
+        //================================================================================================================================
+        //=======================function to call for the user from either local_storage/cookies or github api============================
+        //================================================================================================================================
+        async function getUser(){
+            // function to call for the user from either local_storage/cookies or github api.
+            let username = document.getElementById("username").value
+
+
+            //================================================================================================================================
+            //================================================================================================================================
+            // Comment out the code block below if you don't want to use LOCAL_STORAGE
+            //--------------------------------------------------------------------------------------------------------------------------------
+            if (localStorage.getItem(username) == null) {
+                console.log("Saving to Local Storage");
+                let response = await fetch(`https://api.github.com/users/${username}`);
+
+                var data = await response.json();
+
+                let s_data = JSON.stringify(data);
+                save_to_local(username, s_data);
+                document.getElementById("message").innerHTML = "";
+            } else {
+                console.log("Reading from Local Storage");
+                let s_data = read_from_local(username);
+                var data = JSON.parse(s_data);
+                document.getElementById("message").innerHTML = "Data Loaded from Local Storage";
+            }
+            //================================================================================================================================
+            //================================================================================================================================
+            //--------------------------------------------------------------------------------------------------------------------------------
+            //--------------------------------------------------------------------------------------------------------------------------------
+            //--------------------------------------------------------------------------------------------------------------------------------
+            //================================================================================================================================
+            //================================================================================================================================
+            // Comment out the code block below if you don't want to use COOKIES
+            //================================================================================================================================
+            //================================================================================================================================
+            if (getCookie(username) == "") {
+                console.log("Setting to Cookies");
+                console.log(getCookie(username) == "");
+                let response = await fetch(`https://api.github.com/users/${username}`);
+
+                var data = await response.json();
+
+                let s_data = JSON.stringify(data);
+
+                setCookie(username, s_data, 1);
+                document.getElementById("message").innerHTML = "";
+            } else {
+                console.log("Getting from Cookies");
+                let s_data = getCookie(username);
+                var data = JSON.parse(s_data);
+                document.getElementById("message").innerHTML = "Data Loaded from Cookies";
+            }
+            //================================================================================================================================
+            //================================================================================================================================
+            //================================================================================================================================
+            //==============================Requesting Data from Github Apis, since Nothing Found in Locally==================================
+            //======================================and Setting Each Data into its Appropriate Place==========================================
+            //================================================================================================================================
+            if (data.message) {
+                document.getElementById("info-box").style.opacity = 0.35;
+                document.getElementById("message").innerHTML = "User Not Found | Try Again";
+            } else {
+                if (document.getElementById("message").innerHTML == "User Not Found | Try Again"){
+                    document.getElementById("message").innerHTML = "";
+                }
+                document.getElementById("info-box").style.opacity = 1;
+                if (data.avatar_url) {document.getElementById("avatar-img").src = data.avatar_url ;}
+                if (data.name) {document.getElementById("account-name").innerHTML = data.name} else {document.getElementById("account-name").innerHTML = "unknown"}
+                if (data.bio) {document.getElementById("bio").innerHTML = data.bio;} else {document.getElementById("bio").innerHTML = "No Bio"}
+                if (data.blog) {document.getElementById("blog").innerHTML = "blog: " + data.blog.replace('https://','www.');} else {document.getElementById("blog").innerHTML = "No Blog"}
+
+                if (data.location) {document.getElementById("loc").innerHTML = data.location} else {document.getElementById("loc").innerHTML = "location not specified"}
+                if (data.followers) {document.getElementById("followers").innerHTML = data.followers} else {document.getElementById("followers").innerHTML = "unknown"}
+                if (data.following) {document.getElementById("following").innerHTML = data.following} else {document.getElementById("following").innerHTML = "unknown"}
+            }
+            // ================================================================================================================================
+            // ================================================================================================================================
+            // ==================================Code Block Below Evaluate the Favourite Programming Language==================================
+            // ===================================================of the Searched User=========================================================
+            if (data.repos_url) {
+                let langs = [];
+                const response = fetch(data.repos_url);
+                response
+                .then((response) => response.json())
+                .then((repos) => {
+                    for (let index = 0;  index < repos.length; index++){
+                        let repo = repos[index];
+                        if (repo.language) {
+                            langs.push(repo.language);
+                        }
+                    }
+                    let count = {};
+                    langs.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+                    let max = 0;
+                    let fav_lang = null;
+                    for (lang in count) {
+                        if (count[lang] > max) {
+                            max = count[lang];
+                            fav_lang = lang;
+                        }
+                    }
+                    if (fav_lang) {
+                        document.getElementById("fav_lang").innerHTML = fav_lang;
+                    } else {
+                        document.getElementById("fav_lang").innerHTML = 'Not Specified';
+                    }
+                });
+            }
+            // ================================================================================================================================
+            // ================================================================================================================================
+        }
+    </script>
+
+</head>
+
+<body class="bg">
+    <div class="void">
+        <div id="info-box">
+            <div class="person">
+                <div class="avatar-div">
+                    <img src="data/user.jpg" id="avatar-img" >
+                </div>
+                <div class="name-div">
+                    <h1 id="account-name">Name</h1>
+                    <h4 id="blog">Blog</h4>
+                </div>
+
+            </div>
+            <div class="details">
+                <table class="details-table">
+                    <thead>
+                        <tr>
+                            <th style="padding-top: 7px">Location</th>
+                            <th style="padding-top: 7px">Followers</th>
+                            <th style="padding-top: 7px">Following</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="loc">-</td>
+                            <td id="followers">-</td>
+                            <td id="following">-</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th colspan="3">Bio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" id="bio">-</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th colspan="3">Favourite Programming Lang</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" id="fav_lang">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="form-box">
+            <div class="user-input">
+                <input type="text" placeholder="username" id="username">
+                <div id="searchBtn"><button onclick="getUser()">Search</button></div>
+            </div>
+            <div id="message"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
