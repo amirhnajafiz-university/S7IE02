@@ -1,3 +1,12 @@
+td {
+    padding: 20px;
+    text-align: center;
+}
+
+th {
+    padding: 3px;
+}
+
 .container {
     width: 800px;
     height: 500px;
@@ -12,16 +21,6 @@
 
     background-color: #89D0EEBF;
     border-radius: 25px;
-}
-
-#info-box {
-    width: 55%;
-    float: left;
-}
-
-#form-box {
-    width: 30%;
-    float: right;
 }
 
 .input-box {
@@ -65,56 +64,66 @@
     box-shadow: 0px 0px 10px rgba(45, 45, 45, 0.95);
 }
 
-.person {
+.row {
     height: 150px;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+
+    border-radius: 100px;
+
+    float: left;
+}
+
+.image {
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+
+    border-radius: 100px;
+}
+
+.name {
+    width: 250px;
+    margin: 30px 25px 0 0;
+
+    float: right;
+
+    text-align: center;
 }
 
 .details {
     margin-top: 10px;
+
     height: 275px;
+
     padding: 10px;
 }
 
-.avatar-div {
-    width: 150px;
-    height: 150px;
-    border-radius: 100px;
-    float: left;
-}
-
-img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 100px;
-}
-
-.name-div {
-    width: 250px;
-    float: right;
-    margin-top: 30px;
-    margin-right: 25px;
-    text-align: center;
-}
-
 .details-table {
+    min-width: 400px;
     padding: 25px;
+    margin: 0 auto;
+
     border-collapse: collapse;
-    margin-left: auto;
-    margin-right: auto;
+
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
 }
 
-td {
-    padding: 20px;
-    text-align: center;
+#info-box {
+    width: 55%;
+    float: left;
 }
 
-th {
-    padding: 3px;
+#form-box {
+    width: 30%;
+    float: right;
 }
 
 #message {
