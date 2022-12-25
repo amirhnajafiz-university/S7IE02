@@ -1,3 +1,9 @@
+/* elements styles */
+/* ============================== */
+
+/* 
+reset every margin and padding, set font family for all. 
+*/
 * {
     font-family: Calibri, 'Trebuchet MS', sans-serif;
 
@@ -5,31 +11,34 @@
     margin: 0;
 }
 
+/*
+setting a background image for body.
+*/
 body {
     height: auto;
+
     background-image: url('assets/images/bg.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-td {
-    padding: 20px;
-    text-align: center;
-}
+/* class styles */
+/* ============================== */
 
-th {
-    padding: 3px;
-}
-
+/*
+container is the main div holder.
+*/
 .container {
     width: 800px;
     height: 500px;
-
     padding: 20px;
     margin: 200px auto 0;
 }
 
+/*
+each of our container parts is a box.
+*/
 .box {
     height: 90%;
     padding: 20px;
@@ -38,12 +47,18 @@ th {
     border-radius: 25px;
 }
 
+/*
+in right container we have a input box that holds the form inputs.
+*/
 .input-box {
     height: 200px;
     padding: 10px;
     margin-top: 80px;
 }
 
+/*
+this class is for user input fields.
+*/
 .user-input {
     width: 170px;
     padding: 15px;
@@ -60,11 +75,17 @@ th {
     box-shadow: 0px 0px 10px rgba(45, 45, 45, 0.95);
 }
 
+/*
+we are putting the submit button inside of a holder.
+*/
 .btn-holder {
     width: fit-content;
     margin: 15% auto 0;
 }
 
+/*
+submit botton class for setting style attributes to our submit button.
+*/
 .btn {
     padding: 10px;
 
@@ -79,28 +100,30 @@ th {
     box-shadow: 0px 0px 10px rgba(45, 45, 45, 0.95);
 }
 
+/*
+we put the avatar and user data inside a row div.
+*/
 .row {
     height: 150px;
 }
 
+/*
+avatar class for user image.
+*/
 .avatar {
-    width: 150px;
-    height: 150px;
-
-    border-radius: 100px;
-
-    float: left;
-}
-
-.image {
     width: 150px;
     height: 150px;
 
     object-fit: cover;
 
     border-radius: 100px;
+
+    float: left;
 }
 
+/* 
+holding person information in a person div.
+*/
 .person {
     width: 250px;
     margin: 50px 25px 0 0;
@@ -110,37 +133,81 @@ th {
     text-align: center;
 }
 
+/*
+all other details will be stored inside a div.
+*/
 .details {
     margin-top: 10px;
-
     height: 275px;
-
     padding: 10px;
 }
 
-.details-table {
-    min-width: 400px;
-    padding: 25px;
-    margin: 0 auto;
-
-    border-collapse: collapse;
-
-    font-size: 0.9em;
-    font-family: sans-serif;
-
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
+/*
+in details div we put items inside a row for giving grids.
+*/
+.details-row {
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
+/* 
+setting styles for a detial part.
+*/
+.detail-body {
+    display: inline;
+    padding: 20px;
+
+    text-align: center;
+}
+
+.detail-header {
+    display: block;
+    padding:7px 3px 3px;
+}
+
+/*
+this class gives 3px margins to an element.
+*/
+.margin-3 {
+    margin: 3px;
+}
+
+/*
+this class gives justify text align to an element.
+*/
+.justify-text {
+    text-align: justify;
+}
+
+/*
+this class gives a top margin of 20px to an element.
+*/
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+/* id styles */
+/* ============================== */
+
+/*
+left div which contains search results.
+*/
 #info-box {
     width: 55%;
     float: left;
 }
 
+/*
+right div which contains form components.
+*/
 #form-box {
     width: 30%;
     float: right;
 }
 
+/*
+message which is the response message.
+*/
 #message {
     height: 40px;
     text-align: center;

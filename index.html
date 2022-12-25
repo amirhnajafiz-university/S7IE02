@@ -23,9 +23,7 @@
 
                 <!-- person box -->
                 <div class="row">
-                    <div class="avatar">
-                        <img class="image" src="assets/images/user.jpg" id="avatar-img" />
-                    </div>
+                    <img class="avatar" src="assets/images/user.jpg" id="avatar-img" />
                     <div class="person">
                         <h1 id="account-name">
                             Name
@@ -33,46 +31,53 @@
                         <h4 id="blog">
                             Blog
                         </h4>
+                        <small id="loc">
+                            Location
+                        </small>
                     </div>
                 </div>
 
                 <div class="details">
-                    <table class="details-table">
-                        <thead>
-                            <tr>
-                                <th style="padding-top: 7px">Location</th>
-                                <th style="padding-top: 7px">Followers</th>
-                                <th style="padding-top: 7px">Following</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="loc">-</td>
-                                <td id="followers">-</td>
-                                <td id="following">-</td>
-                            </tr>
-                        </tbody>
-                        <thead>
-                            <tr>
-                                <th colspan="3">Bio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="3" id="bio">-</td>
-                            </tr>
-                        </tbody>
-                        <thead>
-                            <tr>
-                                <th colspan="3">Favourite Programming Lang</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="3" id="fav_lang">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="details-row">
+                        <div>
+                            <div class="detail-header">
+                                Followers
+                            </div>
+                            <div class="detail-body" id="followers">
+                                -
+                            </div>
+                        </div>
+                        <div>
+                            <div class="detail-header">
+                                Following
+                            </div>
+                            <div class="detail-body" id="following">
+                                -
+                            </div>
+                        </div>
+                        <div>
+                            <div class="detail-header">
+                                Stars
+                            </div>
+                            <div class="detail-body" id="stars">
+                                -
+                            </div>
+                        </div>
+                        <div>
+                            <div class="detail-header">
+                                Favorite language
+                            </div>
+                            <div class="detail-body" id="fav_lang">
+                                -
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="margin-3 margin-top-20">
+                        Bio
+                    </h4>
+                    <p id="bio" class="margin-3 justify-text margin-top-20">
+                        -
+                    </p>
                 </div>
 
             </div>
