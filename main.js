@@ -1,64 +1,69 @@
-//================================================================================================================================
-        //==============================================Checking Internet Connection======================================================
-        //================================================================================================================================
-        // window.addEventListener("offline", function() {
-        //     document.getElementById("message").innerHTML = "Error in Internet Connection";
-        // })
-        // window.addEventListener("online", function() {
-        //     if (document.getElementById("message").innerHTML == "Error in Internet Connection") {
-        //         document.getElementById("message").innerHTML = "";
-        //     }
-        //
-        // })
-        //================================================================================================================================
-        //================================================================================================================================
-        //================================================================================================================================
+// errors
+const errNoInternetConnection = "No Internet Connection!";
 
-        //================================================================================================================================
-        //==========================================The function for saving data as cookies===============================================
-        //================================================================================================================================
-        function setCookie(cname, cvalue, exdays) {
-            // The function for saving data as cookies-------------
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays*24*60*60*1000));
-            let expires = "expires="+ d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            document.getElementById("message").innerHTML = "";
+// messages
+const msgConnectToInternet = "Internet Connected."
+
+// elements
+let responseElement = document.getElementById("response");
+
+
+// add event listeners for checking internet connection.
+window.addEventListener("offline", function() {
+    responseElement.innerHTML = errNoInternetConnection;
+
+    alert(errNoInternetConnection);
+});
+
+window.addEventListener("online", function() {
+    if (responseElement.innerHTML == errNoInternetConnection) {
+        responseElement.innerHTML = "";
+    }
+
+    alert(msgConnectToInternet);
+});
+
+// function for saving data as cookie.
+function setCookie(key, value, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+
+    let expires = "expires="+ d.toUTCString();
+
+    document.cookie = key + "=" + value + ";" + expires + ";path=/";
+}
+
+// function for reading data from cookie.
+function getCookie(key) {
+    let name = key + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+
+    let ca = decodedCookie.split(';');
+
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
         }
-        //================================================================================================================================
-        //==========================================The function for reading data from cookies============================================
-        //================================================================================================================================
-        function getCookie(cname) {
-            // The function for reading data from cookies--------------
-            let name = cname + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
+
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
         }
-        //================================================================================================================================
-        //==========================================The function for saving data in local storage=========================================
-        //================================================================================================================================
-        function save_to_local(username, data){
-            // The function for saving data in local storage-------
-            localStorage.setItem(username, data);
-        }
-        //================================================================================================================================
-        //==========================================The function for reading data from local storage======================================
-        //================================================================================================================================
-        function read_from_local(username){
-            // The function for reading data from local storage--------
-            let data = localStorage.getItem(username);
-            return data;
-        }
+    }
+
+    return "";
+}
+
+// function for saving data in local storage.
+function save_to_local(key, value){
+    localStorage.setItem(key, value);
+}
+
+// function for reading data from local storage.
+function read_from_local(key){
+    return localStorage.getItem(key);
+}
 
         //================================================================================================================================
         //=======================function to call for the user from either local_storage/cookies or github api============================

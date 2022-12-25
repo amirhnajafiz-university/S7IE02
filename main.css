@@ -208,7 +208,7 @@ right div which contains form components.
 /*
 message which is the response message.
 */
-#message {
+#response {
     height: 40px;
     text-align: center;
 }
