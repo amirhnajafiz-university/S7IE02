@@ -11,7 +11,7 @@ const msgAPIFetch = "Read from API call.";
 
 
 // other variables
-const timeUnit = 24*60*60*1000;
+const timeUnit = 24 * 60 * 60 * 1000;
 
 
 // elements
@@ -24,15 +24,22 @@ let cookieElement = document.getElementById("use_cookie");
 
 let avatarElement = document.getElementById("avatar");
 let accountElement = document.getElementById("account");
+
 let bioElement = document.getElementById("bio");
 let blogElement = document.getElementById("blog");
+
 let locationElement = document.getElementById("location");
+
 let followersElement = document.getElementById("followers");
 let followingElement = document.getElementById("following");
+
 let companyElement = document.getElementById("company");
+
 let repoElement = document.getElementById("repos");
+
 let hireElement = document.getElementById("hireable");
 let twitterElement = document.getElementById("twitter");
+
 let orgsElement = document.getElementById("orgs");
 
 
@@ -108,7 +115,7 @@ async function put_values(data) {
     repoElement.innerHTML = data.public_repos || "unknown";
     // need modification values
     blogElement.innerHTML = data.blog ? "Website: " + data.blog.replace('https://','www.') : "unknown";
-    hireElement.innerHTML = data.hireable ? data.hireable === true ? 'Yes' : 'No' : "unknown";
+    hireElement.innerHTML = data.hireable ? data.hireable ? 'Yes' : 'No' : "unknown";
     // fetch an api to get value
     if (data.organizations_url) {
         let orgsResp = await fetch(data.organizations_url);
@@ -152,11 +159,22 @@ async function search(){
             }
     
             // check for network errors
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 404) {
                 responseElement.innerHTML = errServerError
+                infoBoxElement.style.opacity = 0.4;
     
                 alert(errServerError)
     
+                return
+            }
+
+            // check for user found
+            if (response.status === 404) {
+                responseElement.innerHTML = errUserNotFound
+                infoBoxElement.style.opacity = 0.4;
+
+                alert(errUserNotFound)
+
                 return
             }
     
@@ -184,10 +202,21 @@ async function search(){
                 return
             }
 
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 404) {
                 responseElement.innerHTML = errServerError
+                infoBoxElement.style.opacity = 0.4;
 
                 alert(errServerError)
+
+                return
+            }
+
+            // check for user found
+            if (response.status === 404) {
+                responseElement.innerHTML = errUserNotFound
+                infoBoxElement.style.opacity = 0.4;
+
+                alert(errUserNotFound)
 
                 return
             }
@@ -206,7 +235,7 @@ async function search(){
 
     // setting the response into elements
     if (data.message) {
-        infoBoxElement.style.opacity = 0.20;
+        infoBoxElement.style.opacity = 0.4;
 
         responseElement.innerHTML = errUserNotFound;
     } else {
