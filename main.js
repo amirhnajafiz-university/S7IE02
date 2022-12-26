@@ -25,6 +25,8 @@ let followingElement = document.getElementById("following");
 let companyElement = document.getElementById("company");
 let repoElement = document.getElementById("repos");
 let hireElement = document.getElementById("hireable");
+let twitterElement = document.getElementById("twitter");
+let orgsElement = document.getElementById("orgs");
 
 
 
@@ -115,7 +117,7 @@ async function getUser(){
             console.log(response.status)
     
             // send http request to github api
-            let data = await response.json();
+            var data = await response.json();
     
             // save it into local storage
             save_to_local(username, JSON.stringify(data));
@@ -163,15 +165,28 @@ async function getUser(){
 
         infoBoxElement.style.opacity = 1;
 
-        avatarElement.src = data.avatar_url ? data.avatar_url : "unknown";
-        accountElement.innerHTML = data.name ? data.name : "unknown";
-        bioElement.innerHTML = data.bio ? data.bio : "unknown";
+        avatarElement.src = data.avatar_url || "unknown";
+        accountElement.innerHTML = data.name || "unknown";
+        bioElement.innerHTML = data.bio || "unknown";
         blogElement.innerHTML = data.blog ? "blog: " + data.blog.replace('https://','www.') : "unknown";
-        locationElement.innerHTML = data.location ? data.location : "unknown";
-        followersElement.innerHTML = data.followers ? data.followers : "unknown";
-        followingElement.innerHTML = data.following ? data.following : "unknown";
-        companyElement.innerHTML = data.company ? data.company : "unknown";
-        repoElement.innerHTML = data.public_repos ? data.public_repos : "unknown";
-        hireElement.innerHTML = data.hireable ? data.hireable : "unknown";
+        locationElement.innerHTML = data.location || "unknown";
+        followersElement.innerHTML = data.followers || "unknown";
+        followingElement.innerHTML = data.following || "unknown";
+        companyElement.innerHTML = data.company || "unknown";
+        repoElement.innerHTML = data.public_repos || "unknown";
+        hireElement.innerHTML = data.hireable ? data.hireable === true ? 'Yes' : 'No' : "unknown";
+        twitterElement.innerHTML = data.twitter_username || "unknown";
+
+        if (data.organizations_url) {
+            let orgsResp = await fetch(data.organizations_url);
+            var orgs = await orgsResp.json();
+
+            if (orgsResp.status === 200) {
+                orgsElement.innerHTML = orgs.length
+            } else {
+                orgsElement.innerHTML = "unknown"
+            }
+        }
+
     }
 }
