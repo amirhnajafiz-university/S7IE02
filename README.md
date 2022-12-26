@@ -21,5 +21,5 @@ Double click on ```index.html``` file.
 ## Demo
 
 <p align="center">
-    <img src="assets/demo.png" width="500" alt="demo" />
+    <img src="assets/demo.png" width="800" alt="demo" />
 </p>
