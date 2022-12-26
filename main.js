@@ -123,7 +123,15 @@ async function put_values(data) {
 
 // function for sending http request to github.
 async function send_request(username) {
-    return fetch(`https://api.github.com/users/${username}`);
+    return fetch(`https://api.github.com/users/${username}`)
+    .then((response) => response)
+    .catch((error) => {
+        responseElement.innerHTML = errNoInternetConnection
+
+        console.log(error)
+
+        return null
+    })
 }
 
 // function to search for the user from localstorage/cookies or github api.
@@ -139,6 +147,9 @@ async function search(){
         if (read_from_local(username) == null) {
             // need to send http request.
             let response = await send_request(username);
+            if (response === null) {
+                return
+            }
     
             // check for network errors
             if (response.status !== 200) {
@@ -168,7 +179,11 @@ async function search(){
         // get data from cookie
         if (getCookie(username) == "") {
             // make http request
-            let response = await sendRequest(username);
+            let response = await send_request(username);
+            if (response === null) {
+                return
+            }
+
             if (response.status !== 200) {
                 responseElement.innerHTML = errServerError
 
