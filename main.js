@@ -94,13 +94,40 @@ function read_from_local(key){
     return localStorage.getItem(key);
 }
 
+// function for updating elements values.
+async function put_values(data) {
+    // basic values
+    avatarElement.src = data.avatar_url || "unknown";
+    accountElement.innerHTML = data.name || "unknown";
+    bioElement.innerHTML = data.bio || "unknown";
+    twitterElement.innerHTML = data.twitter_username || "unknown";
+    locationElement.innerHTML = data.location || "unknown";
+    followersElement.innerHTML = data.followers || "unknown";
+    followingElement.innerHTML = data.following || "unknown";
+    companyElement.innerHTML = data.company || "unknown";
+    repoElement.innerHTML = data.public_repos || "unknown";
+    // need modification values
+    blogElement.innerHTML = data.blog ? "Website: " + data.blog.replace('https://','www.') : "unknown";
+    hireElement.innerHTML = data.hireable ? data.hireable === true ? 'Yes' : 'No' : "unknown";
+    // fetch an api to get value
+    if (data.organizations_url) {
+        let orgsResp = await fetch(data.organizations_url);
+        var orgs = await orgsResp.json();
+        if (orgsResp.status === 200) {
+            orgsElement.innerHTML = orgs.length
+        } else {
+            orgsElement.innerHTML = "unknown"
+        }
+    }
+}
+
 // function for sending http request to github.
-async function sendRequest(username) {
+async function send_request(username) {
     return fetch(`https://api.github.com/users/${username}`);
 }
 
-// function to call for the user from either local storage/cookies or github api.
-async function getUser(){
+// function to search for the user from localstorage/cookies or github api.
+async function search(){
     // get username
     let username = userInputElement.value
 
@@ -108,9 +135,10 @@ async function getUser(){
     if (localElement.checked) {
         console.log('try: local storage');
 
+        // check for local storage data existance
         if (read_from_local(username) == null) {
             // need to send http request.
-            let response = await sendRequest(username);
+            let response = await send_request(username);
     
             // check for network errors
             if (response.status !== 200) {
@@ -120,8 +148,6 @@ async function getUser(){
     
                 return
             }
-
-            console.log(response.status)
     
             // send http request to github api
             var data = await response.json();
@@ -129,18 +155,19 @@ async function getUser(){
             // save it into local storage
             save_to_local(username, JSON.stringify(data));
     
-            responseElement.innerHTML = "";
+            responseElement.innerHTML = msgAPIFetch;
         } else {
             // no need for api request
             var data = JSON.parse(read_from_local(username));
     
-            responseElement.innerHTML = msgReadFromLocal;
+            responseElement.innerHTML = msgReadFromLocal + "(local storage)";
         }
     } else if (cookieElement.checked) {
         console.log('try: cookie');
 
         // get data from cookie
         if (getCookie(username) == "") {
+            // make http request
             let response = await sendRequest(username);
             if (response.status !== 200) {
                 responseElement.innerHTML = errServerError
@@ -153,47 +180,23 @@ async function getUser(){
             var data = await response.json();
             setCookie(username, JSON.stringify(data), 1);
 
-            responseElement.innerHTML = "";
+            responseElement.innerHTML = msgAPIFetch;
         } else {
+            // read from cookie
             var data = JSON.parse(getCookie(username));
 
-            responseElement.innerHTML = msgReadFromLocal;
+            responseElement.innerHTML = msgReadFromLocal + "(cookie)";
         }
     }
 
     // setting the response into elements
     if (data.message) {
-        infoBoxElement.style.opacity = 0.35;
+        infoBoxElement.style.opacity = 0.20;
+
         responseElement.innerHTML = errUserNotFound;
     } else {
-        if (responseElement.innerHTML == errUserNotFound){
-            responseElement.innerHTML = "";
-        }
-
         infoBoxElement.style.opacity = 1;
 
-        avatarElement.src = data.avatar_url || "unknown";
-        accountElement.innerHTML = data.name || "unknown";
-        bioElement.innerHTML = data.bio || "unknown";
-        blogElement.innerHTML = data.blog ? "blog: " + data.blog.replace('https://','www.') : "unknown";
-        locationElement.innerHTML = data.location || "unknown";
-        followersElement.innerHTML = data.followers || "unknown";
-        followingElement.innerHTML = data.following || "unknown";
-        companyElement.innerHTML = data.company || "unknown";
-        repoElement.innerHTML = data.public_repos || "unknown";
-        hireElement.innerHTML = data.hireable ? data.hireable === true ? 'Yes' : 'No' : "unknown";
-        twitterElement.innerHTML = data.twitter_username || "unknown";
-
-        if (data.organizations_url) {
-            let orgsResp = await fetch(data.organizations_url);
-            var orgs = await orgsResp.json();
-
-            if (orgsResp.status === 200) {
-                orgsElement.innerHTML = orgs.length
-            } else {
-                orgsElement.innerHTML = "unknown"
-            }
-        }
-
+        await put_values(data);
     }
 }

@@ -23,6 +23,13 @@ body {
     background-size: cover;
 }
 
+/*
+make all small tags italic.
+*/
+small {
+    font-style: italic;
+}
+
 /* class styles */
 /* ============================== */
 
@@ -160,7 +167,8 @@ setting styles for a detial part.
 }
 
 .detail-header {
-    display: block;
+    font-weight: bold;
+
     padding:7px 3px 3px;
 }
 
