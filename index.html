@@ -19,7 +19,7 @@
         <div class="container">
 
             <!-- result of our search -->
-            <div class="box" id="info-box">
+            <div class="box" id="info">
 
                 <!-- person box -->
                 <div class="row">
@@ -102,7 +102,11 @@
             </div>
 
             <!-- input form -->
-            <div class="box" id="form-box">
+            <div class="box" id="form">
+
+                <h3 id="form-header">
+                    Find the user you want
+                </h3>
 
                 <div class="input-box">
 
@@ -113,11 +117,11 @@
                         </button>
                     </div>
                     <div class="btn-holder">
-                        Use Local Storage?  
+                        <label for="use_local"> Local Storage? </label> 
                         <input name="use_cache" type="radio" id="use_local" />
                     </div>
                     <div class="btn-holder">
-                        Use Cookies?  
+                        <label for="use_cookie"> Use Cookies? </label>
                         <input name="use_cache" type="radio" id="use_cookie" checked />
                     </div>
                 </div>

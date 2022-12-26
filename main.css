@@ -53,7 +53,6 @@ in right container we have a input box that holds the form inputs.
 .input-box {
     height: 300px;
     padding: 10px;
-    margin-top: 80px;
 }
 
 /*
@@ -192,7 +191,7 @@ this class gives a top margin of 20px to an element.
 /*
 left div which contains search results.
 */
-#info-box {
+#info {
     width: 55%;
     float: left;
 }
@@ -200,9 +199,14 @@ left div which contains search results.
 /*
 right div which contains form components.
 */
-#form-box {
+#form {
     width: 30%;
     float: right;
+}
+
+#form-header {
+    text-align: center;
+    margin-top: 50px;
 }
 
 /*
