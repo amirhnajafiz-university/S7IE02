@@ -3,15 +3,22 @@ const errNoInternetConnection = "No internet connection!";
 const errUserNotFound = "User not found!";
 const errServerError = "Server error!";
 
+
 // messages
 const msgConnectToInternet = "Internet connected.";
 const msgReadFromLocal = "Read from cache.";
+const msgAPIFetch = "Read from API call.";
+
+
+// other variables
+const timeUnit = 24*60*60*1000;
+
 
 // elements
 let responseElement = document.getElementById("response");
 let userInputElement = document.getElementById("username");
 
-let infoBoxElement = document.getElementById("info-box");
+let infoBoxElement = document.getElementById("info");
 let localElement = document.getElementById("use_local");
 let cookieElement = document.getElementById("use_cookie");
 
@@ -31,12 +38,7 @@ let orgsElement = document.getElementById("orgs");
 
 
 // add event listeners for checking internet connection.
-window.addEventListener("offline", function() {
-    responseElement.innerHTML = errNoInternetConnection;
-
-    alert(errNoInternetConnection);
-});
-
+// get online.
 window.addEventListener("online", function() {
     if (responseElement.innerHTML == errNoInternetConnection) {
         responseElement.innerHTML = "";
@@ -44,33 +46,38 @@ window.addEventListener("online", function() {
 
     alert(msgConnectToInternet);
 });
+// get offline.
+window.addEventListener("offline", function() {
+    responseElement.innerHTML = errNoInternetConnection;
+
+    alert(errNoInternetConnection);
+});
+
+
 
 // function for saving data as cookie.
-function setCookie(key, value, exdays) {
+function setCookie(key, value, days) {
     const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setTime(d.getTime() + (days * timeUnit));
 
-    let expires = "expires="+ d.toUTCString();
-
-    document.cookie = key + "=" + value + ";" + expires + ";path=/";
+    document.cookie = key + "=" + value + ";" + "expires="+ d.toUTCString() + ";path=/";
 }
 
 // function for reading data from cookie.
 function getCookie(key) {
-    let name = key + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
+    key = key + "=";
 
-    let ca = decodedCookie.split(';');
+    let cookies = decodeURIComponent(document.cookie).split(';');
 
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
 
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+        while (cookie.charAt(0) == ' ') {
+            cookie = cookie.substring(1);
         }
 
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
+        if (cookie.indexOf(key) == 0) {
+            return cookie.substring(key.length, cookie.length);
         }
     }
 
