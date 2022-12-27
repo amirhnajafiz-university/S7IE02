@@ -62,7 +62,9 @@ window.addEventListener("offline", function() {
 
 // function for reset user input and box.
 function reset() {
-    userInputElement.innerHTML = "";
+    infoBoxElement.style.opacity = 1;
+    responseElement.innerHTML = "";
+    userInputElement.value = "";
     avatarElement.src = "assets/images/user.jpg";
     accountElement.innerHTML = "Name";
     blogElement.innerHTML = "Website";
