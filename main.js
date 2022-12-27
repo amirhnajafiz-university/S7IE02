@@ -126,11 +126,11 @@ async function put_values(data) {
     }
     if (data.repos_url) {
         let languages = {};
-
+        // get repositories
         fetch(data.repos_url)
             .then((response) => response.json())
             .then((repos) => {
-                for (let index = 0;  index < Math.min(repos.length, 5); index++) {
+                for (let index = 0;  index < Math.min(repos.length, 5); index++) { // loop over 5 top
                     let repo = repos[index];
                     if (repo.language) {
                         if (repo.language in languages) {
@@ -141,6 +141,7 @@ async function put_values(data) {
                     }
                 }
 
+                // Find maximum
                 let max = 0;
                 let maxKey = "";
 
