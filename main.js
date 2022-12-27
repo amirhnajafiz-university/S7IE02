@@ -58,6 +58,13 @@ window.addEventListener("offline", function() {
     infoBoxElement.style.opacity = 0.4;
 });
 
+// add event listener for enter button.
+window.addEventListener("keypress", function(event) {
+    if (event.key === 'Enter') {
+        search()
+    }
+})
+
 
 
 // function for reset user input and box.
