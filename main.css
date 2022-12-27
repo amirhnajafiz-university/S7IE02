@@ -160,8 +160,6 @@ holding person information in a person div.
 
     flex-grow: 2;
 
-    float: right;
-
     text-align: center;
 }
 
@@ -226,7 +224,6 @@ left div which contains search results.
 */
 #info {
     width: 40%;
-    float: left;
 }
 
 /*
@@ -234,7 +231,6 @@ right div which contains form components.
 */
 #form {
     width: 20%;
-    float: right;
 }
 
 #form-header {
@@ -247,4 +243,30 @@ message which is the response message.
 */
 #response {
     text-align: center;
+}
+
+/*
+for small media.
+*/
+@media only screen and (max-width: 1700px) {
+    .avatar {
+        margin: 0 auto;
+    }
+    
+    .person {
+        margin: 50px auto 0;
+    }
+}
+
+/*
+for super small media.
+*/
+@media only screen and (max-width: 900px) {
+    #info, #form {
+        width: 60%;
+    }
+
+    .box {
+        margin-bottom: 20px;
+    }
 }
