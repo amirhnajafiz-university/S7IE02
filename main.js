@@ -41,7 +41,7 @@ let hireElement = document.getElementById("hireable");
 let twitterElement = document.getElementById("twitter");
 
 let orgsElement = document.getElementById("orgs");
-
+let favLangElement = document.getElementById("fav_lang");
 
 
 // add event listeners for checking internet connection.
@@ -50,14 +50,12 @@ window.addEventListener("online", function() {
     if (responseElement.innerHTML == errNoInternetConnection) {
         responseElement.innerHTML = "";
     }
-
-    alert(msgConnectToInternet);
+    infoBoxElement.style.opacity = 1;
 });
 // get offline.
 window.addEventListener("offline", function() {
     responseElement.innerHTML = errNoInternetConnection;
-
-    alert(errNoInternetConnection);
+    infoBoxElement.style.opacity = 0.4;
 });
 
 
@@ -126,6 +124,45 @@ async function put_values(data) {
             orgsElement.innerHTML = "unknown"
         }
     }
+    if (data.repos_url) {
+        let languages = {};
+
+        fetch(data.repos_url)
+            .then((response) => response.json())
+            .then((repos) => {
+                for (let index = 0;  index < Math.min(repos.length, 5); index++) {
+                    let repo = repos[index];
+                    if (repo.language) {
+                        if (repo.language in languages) {
+                            languages[repo.language]++;
+                        } else {
+                            languages[repo.language] = 1;
+                        }
+                    }
+                }
+
+                let max = 0;
+                let maxKey = "";
+
+                for(let lang in languages){
+                    if(languages[lang]> max){
+                        max = languages[lang];
+                        maxKey= lang
+                    }
+                }
+
+                if (fav_lang) {
+                    favLangElement.innerHTML = maxKey;
+                } else {
+                    favLangElement.innerHTML = "unknown";
+                }
+            })
+            .catch((error) => {
+                favLangElement.innerHTML = "unknown";
+
+                console.error(error);
+            })
+    }
 }
 
 // function for sending http request to github.
@@ -163,8 +200,6 @@ async function search(){
                 responseElement.innerHTML = errServerError
                 infoBoxElement.style.opacity = 0.4;
     
-                alert(errServerError)
-    
                 return
             }
 
@@ -172,8 +207,6 @@ async function search(){
             if (response.status === 404) {
                 responseElement.innerHTML = errUserNotFound
                 infoBoxElement.style.opacity = 0.4;
-
-                alert(errUserNotFound)
 
                 return
             }
@@ -206,8 +239,6 @@ async function search(){
                 responseElement.innerHTML = errServerError
                 infoBoxElement.style.opacity = 0.4;
 
-                alert(errServerError)
-
                 return
             }
 
@@ -215,8 +246,6 @@ async function search(){
             if (response.status === 404) {
                 responseElement.innerHTML = errUserNotFound
                 infoBoxElement.style.opacity = 0.4;
-
-                alert(errUserNotFound)
 
                 return
             }
