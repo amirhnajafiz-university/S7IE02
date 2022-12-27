@@ -60,6 +60,24 @@ window.addEventListener("offline", function() {
 
 
 
+// function for reset user input and box.
+function reset() {
+    userInputElement.innerHTML = "";
+    avatarElement.src = "assets/images/user.jpg";
+    accountElement.innerHTML = "Name";
+    blogElement.innerHTML = "Website";
+    bioElement.innerHTML = "-";
+    locationElement.innerHTML = "Location";
+    companyElement.innerHTML = "Company";
+    followersElement.innerHTML = "-";
+    followingElement.innerHTML = "-";
+    repoElement.innerHTML = "-";
+    hireElement.innerHTML = "-";
+    twitterElement.innerHTML = "-";
+    orgsElement.innerHTML = "-";
+    favLangElement.innerHTML = "-";
+}
+
 // function for saving data as cookie.
 function setCookie(key, value, days) {
     const d = new Date();
