@@ -1,5 +1,5 @@
 <h1 align="center">
-Gitgle
+    S7IE02
 </h1>
 
 <br />
@@ -7,6 +7,7 @@ Gitgle
 Internet Engineering midterm project. **Github** users search engine.
 In this project we are creating a simple search engine for getting information about
 **Github** users by fetching API calls to **Github** and store them in a local cache.
+Visit project by [link](https://ceit-aut.github.io/S7IE02).
 
 This local cahce can be **Local Storage** or browser **Cookie**. You can set the cache type
 in the application when you are submiting a search.
